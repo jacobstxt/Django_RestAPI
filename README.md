@@ -47,6 +47,32 @@ py manage.py migrate
 py manage.py runserver 4099
 
 http://127.0.0.1:4099/api/users/generate/ - в Postman генерую рандомних юзерів
-
 ```
 
+## Створюю проект на React+Vite
+```
+npm create vite@latest
+```
+
+
+## Додаю бібліотеку для взаємодії сервера з фронтендом
+```
+pip install django-cors-headers
+
+
+Додаю в settings.py в Middleware [
+    "corsheaders.middleware.CorsMiddleware",  # має бути якомога вище
+    "django.middleware.common.CommonMiddleware",
+]
+
+Далі прописую в цьому самому файлику 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+```
+
+
+npm i @reduxjs/toolkit react-redux 
+
+npm install tailwindcss @tailwindcss/vite
