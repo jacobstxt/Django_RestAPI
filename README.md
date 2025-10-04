@@ -46,5 +46,7 @@ py manage.py migrate
 
 py manage.py runserver 4099
 
+http://127.0.0.1:4099/api/users/generate/ - в Postman генерую рандомних юзерів
+
 ```
 
