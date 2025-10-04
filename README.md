@@ -72,7 +72,17 @@ CORS_ALLOWED_ORIGINS = [
 ]
 ```
 
-
+## Ставлю замість axios redux toolkit
+```
 npm i @reduxjs/toolkit react-redux 
+```
 
+## Буду використовувати Tailwindcss для стилізації
+```
 npm install tailwindcss @tailwindcss/vite
+```
+
+## Для маршрутизації на фронтенді ставлю react-router
+```
+ npm i react-router
+ ```
