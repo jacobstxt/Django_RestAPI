@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'atbapi',
     'users',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # має бути якомога вище
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,6 +73,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'atbapi.wsgi.application'
+
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 
 # Database
