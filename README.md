@@ -39,7 +39,7 @@ py manage.py migrate
 ## Додаю CustomUser
 ```
 py manage.py startapp users
-pip install -r requirements.txt
+pip install -r requirements.txt - ставляться бібліотеки з requirements.txt
 
 py manage.py makemigrations users
 py manage.py migrate
