@@ -20,6 +20,9 @@ const UserListItem: React.FC<Props> = ({user}) => {
                     {user.email}
                 </td>
                 <td className="px-6 py-4">
+                    <img src={user.image_small} alt={user.last_name} width={80} />
+                </td>
+                <td className="px-6 py-4">
 
                 </td>
             </tr>

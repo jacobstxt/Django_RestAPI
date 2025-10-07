@@ -6,6 +6,8 @@ const UsersListPage = () => {
 
     console.log("isLoading...", isLoading);
 
+    console.log(users);
+
     const contentUsers = users?.map((user) => {
         return (
             <UserListItem key={user.id} user={user} />
@@ -28,6 +30,9 @@ const UsersListPage = () => {
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Email
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Avatar
                         </th>
                         <th scope="col" className="px-6 py-3">
 
