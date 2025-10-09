@@ -152,3 +152,24 @@ IMAGES_ROOT = BASE_DIR / 'images'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DjangoApi',
+    'DESCRIPTION': 'Django REST API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.ukr.net'
+EMAIL_PORT = 2525 
+EMAIL_USE_SSL = True 
+EMAIL_HOST_USER = 'jacobsmaksym@ukr.net'
+EMAIL_HOST_PASSWORD = 'JGyHh8uWtXzPmPWI'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+FRONTEND_URL='http://localhost:5173'
+
+
