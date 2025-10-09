@@ -7,6 +7,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.conf import settings
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,8 +58,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             user.save()
 
         return user;
-       
-       
+             
 User = get_user_model()
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -117,5 +117,19 @@ class SetNewPasswordSerializer(serializers.Serializer):
         user = self.validated_data['user']
         user.set_password(self.validated_data['new_password'])
         user.save()
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['id'] = user.id
+        token['username'] = user.username
+        token['email'] = user.email
+        token['image'] = user.image.url if user.image else None
+        token['date_joined'] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
+
+        return token
+
 
 
