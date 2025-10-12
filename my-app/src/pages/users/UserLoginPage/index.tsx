@@ -1,10 +1,10 @@
 import React from "react";
 import {Typography, Card, Row, Col} from "antd";
-import RegisterForm from "../../../components/forms/RegisterForm.tsx"
+import LoginForm from "../../../components/forms/LoginForm.tsx";
 
 const { Title, Text } = Typography;
 
-const UserRegisterPage: React.FC = () => {
+const UserLoginPage: React.FC = () => {
     return (
         <div
             style={{
@@ -30,18 +30,15 @@ const UserRegisterPage: React.FC = () => {
                         <Title level={2} style={{ color: "white" }}>
                             Welcome!
                         </Title>
-                        <Text style={{ color: "white", fontSize: 16 }}>
-                            Create your account to get started.
-                        </Text>
                     </Col>
                     <Col xs={24} md={12} style={{ padding: "40px" }}>
                         <div style={{ textAlign: "center", marginBottom: 24 }}>
                             <Title level={3} style={{ marginBottom: 0 }}>
-                                REGISTER
+                                Login
                             </Title>
-                            <Text>Enter your information to register</Text>
+                            <Text>Enter your information to login</Text>
                         </div>
-                        <RegisterForm />
+                        <LoginForm />
                     </Col>
                 </Row>
             </Card>
@@ -49,4 +46,4 @@ const UserRegisterPage: React.FC = () => {
     );
 };
 
-export default UserRegisterPage;
+export default UserLoginPage;

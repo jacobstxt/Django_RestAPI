@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Upload, Image } from "antd";
 import ImgCrop from "antd-img-crop";
 import type { UploadFile, UploadProps, GetProp } from "antd";
@@ -46,7 +46,6 @@ const ImageUploader: React.FC<Props> = ({
                     fileList={fileList}
                     onChange={({ fileList }) => {
                         setFileList(fileList);
-                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                         setImageError && setImageError(false);
                     }}
                     onPreview={handlePreview}

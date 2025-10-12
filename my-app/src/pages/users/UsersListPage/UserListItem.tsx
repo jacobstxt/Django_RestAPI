@@ -1,5 +1,4 @@
 import type {IUserItem} from "../../../types/users/IUserItem";
-import React from "react";
 
 interface Props {
     user: IUserItem;
@@ -14,13 +13,15 @@ const UserListItem: React.FC<Props> = ({user}) => {
                     {user.id}
                 </th>
                 <td className="px-6 py-4">
+                    <img src={user.image_small} alt={user.last_name}
+                        width={75}/>
+
+                </td>
+                <td className="px-6 py-4">
                     {user.last_name} {user.first_name}
                 </td>
                 <td className="px-6 py-4">
                     {user.email}
-                </td>
-                <td className="px-6 py-4">
-                    <img src={user.image_small} alt={user.last_name} width={80} />
                 </td>
                 <td className="px-6 py-4">
 

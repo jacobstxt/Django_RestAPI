@@ -2,11 +2,9 @@ import {useGetUsersQuery} from "../../../services/userService";
 import UserListItem from "./UserListItem";
 
 const UsersListPage = () => {
-    const {data: users, isLoading} = useGetUsersQuery();
+    const {data: users} = useGetUsersQuery();
 
-    console.log("isLoading...", isLoading);
-
-    console.log(users);
+    console.log("listUsers...", users);
 
     const contentUsers = users?.map((user) => {
         return (
@@ -26,13 +24,13 @@ const UsersListPage = () => {
                             Id
                         </th>
                         <th scope="col" className="px-6 py-3">
+                            Image
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                             Full name
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Email
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Avatar
                         </th>
                         <th scope="col" className="px-6 py-3">
 
