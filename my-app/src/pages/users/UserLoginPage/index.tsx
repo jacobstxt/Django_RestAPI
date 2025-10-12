@@ -8,7 +8,7 @@ const UserLoginPage: React.FC = () => {
     return (
         <div
             style={{
-                minHeight: "100vh",
+                minHeight: "calc(100vh - 64px)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -18,7 +18,7 @@ const UserLoginPage: React.FC = () => {
         >
             <Card
                 style={{
-                    maxWidth: 900,
+                    maxWidth: 1300,
                     width: "100%",
                     borderRadius: "16px",
                     overflow: "hidden",
