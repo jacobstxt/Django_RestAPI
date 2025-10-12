@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-asz-&cg!)b10%a@l*d+&-@n=!wf^l11inmbob_^&@cc01zb&96'
+SECRET_KEY = 'django-insecure-c=fx(3m6b^euazx0ek=959a1qd2t3!3jkjocu+gj((ci!m8^@y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'atbapi',
     'drf_spectacular',
     'users',
-    'corsheaders',
+    "corsheaders"
 ]
 
 REST_FRAMEWORK = {
@@ -50,7 +50,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",  # має бути якомога вище
@@ -83,13 +82,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'atbapi.wsgi.application'
 
-
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -138,7 +134,6 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -153,15 +148,6 @@ IMAGES_ROOT = BASE_DIR / 'images'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'DjangoApi',
-    'DESCRIPTION': 'Django REST API',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-}
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.ukr.net'
 EMAIL_PORT = 2525 
@@ -172,4 +158,11 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 FRONTEND_URL='http://localhost:5173'
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DjangoApi',
+    'DESCRIPTION': 'Django REST API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
+RECAPTCHA_SECRET_KEY = "6LdztecrAAAAANdt-MZizAHL0qc5wQXdPs2G5RvX"

@@ -9,20 +9,21 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = [
             'id', 
             'username', 
-            'email',
+            'email', 
             'first_name', 
-            'last_name',
+            'last_name', 
             'image_small', 
             'image_medium', 
             'image_large'
         ]
-        
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     image = serializers.ImageField(write_only=True, required=False)  # лише одне поле для upload
@@ -57,9 +58,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
             user.save()
 
-        return user;
-             
+        return user
+    
 User = get_user_model()
+
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
@@ -94,7 +96,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
         )
-        
+
 class SetNewPasswordSerializer(serializers.Serializer):
     uid = serializers.CharField()
     token = serializers.CharField()
@@ -126,10 +128,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['id'] = user.id
         token['username'] = user.username
         token['email'] = user.email
-        token['image'] = user.image.url if user.image else None
+        # token['phone'] = user.phone if user.phone else None
+        token['image'] = user.image_small.url if user.image_small else None
         token['date_joined'] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
 
         return token
-
-
-
