@@ -85,4 +85,19 @@ npm install tailwindcss @tailwindcss/vite
 ## Для маршрутизації на фронтенді ставлю react-router
 ```
  npm i react-router
- ```
+```
+
+## Start Working Reddit
+## Create topic
+```
+cd atbapi
+py manage.py startapp topics
+py manage.py makemigrations topics
+py manage.py migrate
+```
+## Роблю Seed topics
+```
+python manage.py shell
+from topics.seed_topics import run
+run()
+```
