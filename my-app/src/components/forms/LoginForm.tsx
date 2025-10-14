@@ -5,6 +5,8 @@ import {setTokens} from "../../store/authSlice.ts";
 import {Link, useNavigate} from "react-router";
 import type {ILoginRequest} from "../../types/users/ILoginRequest.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import React from "react";
+// import {useGoogleLogin} from "@react-oauth/google";
 
 const LoginForm: React.FC = () => {
     const [form] = Form.useForm();
@@ -28,6 +30,27 @@ const LoginForm: React.FC = () => {
             console.error(errorMessage);
         }
     };
+
+    /*const loginUseGoogle = useGoogleLogin({
+        onSuccess: async (tokenResponse) =>
+        {
+            try {
+                await loginByGoogle(tokenResponse.access_token).unwrap();
+                // dispatch(loginSuccess(result.token));
+                navigate('/');
+            } catch (error) {
+
+                console.log("User server error auth", error);
+                // const serverError = error as ServerError;
+                //
+                // if (serverError?.status === 400 && serverError?.data?.errors) {
+                //     // setServerErrors(serverError.data.errors);
+                // } else {
+                //     message.error("Сталася помилка при вході");
+                // }
+            }
+        },
+    });*/
 
     return (
         <Form
@@ -56,13 +79,30 @@ const LoginForm: React.FC = () => {
 
             <Link to="/forgot-password">Forgot password?</Link>
 
+            <button
+                onClick={(event) => {
+                    event.preventDefault();
+                    // loginUseGoogle();
+                }}
+                className="flex items-center justify-center gap-2 bg-white
+                         text-gray-700 border border-gray-300 hover:shadow-md
+                         transition px-4 py-2 rounded w-full mt-4 font-medium"
+            >
+                <img
+                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                    alt="Google"
+                    className="w-5 h-5"
+                />
+                Увійти через Google
+            </button>
+
             <Form.Item>
                 <Button
                     type="primary"
                     htmlType="submit"
                     loading={isLoading}
                     block
-                    style={{ height: "40px", fontWeight: 600 }}
+                    style={{ height: "40px", fontWeight: 600,marginTop: "1rem" }}
                 >
                     Login
                 </Button>
