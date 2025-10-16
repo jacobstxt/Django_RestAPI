@@ -1,20 +1,35 @@
 import React from "react";
 import { Layout } from "antd";
+// import Navbar from "../../components/navbar/NavBar.tsx";
+import { Outlet} from "react-router";
+import TopicsSideBar from "../../components/sidebar/TopicsSideBar.tsx";
+
+const {Footer } = Layout;
 import Navbar from "../../components/navbar/NavBar.tsx";
-import {Outlet} from "react-router";
-const { Content, Footer } = Layout;
 
 const UserLayout: React.FC = () => {
+
+
+
     return (
+        <div className="min-h-screen flex flex-col">
+
         <Layout style={{ minHeight: "100vh" }}>
             <Navbar/>
-            <Content style={{ marginTop: "2rem" }}>
-                <Outlet />
-            </Content>
+
+            <main className="flex flex-1 p-6 gap-6">
+                <TopicsSideBar />
+                <div className="flex-1 ml-64">
+                    <Outlet />
+                </div>
+            </main>
+
             <Footer style={{ textAlign: "center" }}>
-                © 2025 MyApp
+                © 2025 Reddit
             </Footer>
         </Layout>
+
+        </div>
     );
 };
 
