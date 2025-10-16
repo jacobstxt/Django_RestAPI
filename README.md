@@ -101,3 +101,11 @@ python manage.py shell
 from topics.seed_topics import run
 run()
 ```
+
+
+## Запуск проекту
+```
+.venv\Scripts\activate.bat
+cd atbapi
+py manage.py runserver 4099
+```

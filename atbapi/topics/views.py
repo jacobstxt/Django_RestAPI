@@ -5,5 +5,7 @@ from .models import Topic
 
 # Create your views here.
 class TopicViewSet(ModelViewSet):
-    queryset = Topic.objects.all()
     serializer_class = TopicSerializer
+
+    def get_queryset(self):
+     return Topic.objects.filter(parent__isnull=True).order_by('priority', 'name')
