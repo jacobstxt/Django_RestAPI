@@ -1,12 +1,11 @@
-import {createApi} from "@reduxjs/toolkit/query/react";
-import {createBaseQuery} from "../utils/createBaseQuery";
-import type {IUserItem} from "../types/users/IUserItem";
+import {createApi} from "@reduxjs/toolkit/query/react";import type {IUserItem} from "../types/users/IUserItem";
 import type {ILoginResponse} from "../types/users/ILoginResponse.ts";
 import {serialize} from "object-to-formdata";
 import type {IUserRegister} from "../types/users/IUserRegister.ts";
 import type {IResetPasswordRequest} from "../types/users/IResetPasswordRequest.ts";
 import type {ILoginRequest} from "../types/users/ILoginRequest.ts";
 import type {IResetPasswordConfirm} from "../types/users/IResetPasswordConfirm.ts";
+import {createBaseQuery} from "../utils/CreateBaseQuery.ts";
 
 export const userService = createApi({
     reducerPath: 'userService',

@@ -1,11 +1,12 @@
-import {Form, Input, Button, type FormProps} from "antd";
+import {Form, Button, type FormProps} from "antd";
 import {useLoginMutation} from "../../services/userService.ts";
 import {useDispatch} from "react-redux";
 import {setTokens} from "../../store/authSlice.ts";
 import {Link, useNavigate} from "react-router";
 import type {ILoginRequest} from "../../types/users/ILoginRequest.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import React from "react";
+import React, {useState} from "react";
+import InputField from "../inputs/InputField.tsx";
 // import {useGoogleLogin} from "@react-oauth/google";
 
 const LoginForm: React.FC = () => {
@@ -14,6 +15,17 @@ const LoginForm: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const [errors, setErrors] = useState<string[]>([]);
+
+    const validationChange = (isValid: boolean, fieldKey: string) => {
+        if (isValid && errors.includes(fieldKey)) {
+            setErrors(errors.filter(x => x !== fieldKey))
+        } else if (!isValid && !errors.includes(fieldKey)) {
+            setErrors(state => [...state, fieldKey])
+        }
+    };
+
 
     const onFinish: FormProps<ILoginRequest>["onFinish"] = async (values) => {
         try {
@@ -53,13 +65,57 @@ const LoginForm: React.FC = () => {
     });*/
 
     return (
+        <>
+
+            <div>
+                <InputField
+                    label={"User name"}
+                    name={"username"}
+                    placeholder="Хустон"
+                    rules={[
+                        {
+                            rule: 'required',
+                            message: "Пошта є обов'язкова"
+                        },
+                        {
+                            rule: 'regexp',
+                            value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+                            message: "Пошта є некоректна"
+                        }
+
+                    ]}
+                    onValidationChange={validationChange}
+                />
+
+                <InputField
+                    label={"Password"}
+                    name={"password"}
+                    type={"password"}
+                    placeholder="Please enter your password"
+                    rules={[
+                        {
+                            rule: 'required',
+                            message: "Пароль є обов'язковим"
+                        },
+                        {
+                            rule: 'regexp',
+                            value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+                            message: "Пароль ковбаса"
+                        }
+
+                    ]}
+                    onValidationChange={validationChange}
+                />
+            </div>
+
+
         <Form
             form={form}
             layout="vertical"
             onFinish={onFinish}
             style={{ width: "100%" }}
         >
-            <Form.Item
+            {/*<Form.Item
                 label="User name"
                 name="username"
                 rules={[
@@ -75,7 +131,7 @@ const LoginForm: React.FC = () => {
                 rules={[{ required: true, message: "Please enter your password" }]}
             >
                 <Input.Password placeholder="********" />
-            </Form.Item>
+            </Form.Item>*/}
 
             <Link to="/forgot-password">Forgot password?</Link>
 
@@ -108,6 +164,7 @@ const LoginForm: React.FC = () => {
                 </Button>
             </Form.Item>
         </Form>
+        </>
     );
 };
 

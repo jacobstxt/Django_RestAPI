@@ -1,6 +1,6 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
-import {createBaseQuery} from "../utils/createBaseQuery";
 import type {IParentTopic} from "../types/topics/IParentTopic.ts";
+import {createBaseQuery} from "../utils/CreateBaseQuery.ts";
 
 export const topicService = createApi({
     reducerPath: 'topicService',
