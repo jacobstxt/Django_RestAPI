@@ -1,5 +1,5 @@
 import {Form, Button, type FormProps} from "antd";
-import {useLoginMutation} from "../../services/userService.ts";
+import {useLoginMutation,useLoginByGoogleMutation} from "../../services/userService.ts";
 import {useDispatch} from "react-redux";
 import {setTokens} from "../../store/authSlice.ts";
 import {Link, useNavigate} from "react-router";
@@ -7,11 +7,13 @@ import type {ILoginRequest} from "../../types/users/ILoginRequest.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import React, {useState} from "react";
 import InputField from "../inputs/InputField.tsx";
-// import {useGoogleLogin} from "@react-oauth/google";
+import {useGoogleLogin} from "@react-oauth/google";
+import type {IGoogleLoginRequest} from "../../types/users/IGoogleLoginRequest.ts";
 
 const LoginForm: React.FC = () => {
     const [form] = Form.useForm();
     const [login, { isLoading }] = useLoginMutation();
+    const [loginByGoogle] = useLoginByGoogleMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { executeRecaptcha } = useGoogleReCaptcha();
@@ -43,26 +45,19 @@ const LoginForm: React.FC = () => {
         }
     };
 
-    /*const loginUseGoogle = useGoogleLogin({
-        onSuccess: async (tokenResponse) =>
-        {
-            try {
-                await loginByGoogle(tokenResponse.access_token).unwrap();
-                // dispatch(loginSuccess(result.token));
-                navigate('/');
-            } catch (error) {
 
-                console.log("User server error auth", error);
-                // const serverError = error as ServerError;
-                //
-                // if (serverError?.status === 400 && serverError?.data?.errors) {
-                //     // setServerErrors(serverError.data.errors);
-                // } else {
-                //     message.error("Сталася помилка при вході");
-                // }
+    const loginUseGoogle = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                const model: IGoogleLoginRequest = { token: tokenResponse.access_token };
+                const result = await loginByGoogle(model).unwrap();
+                dispatch(setTokens(result));
+                navigate("/");
+            } catch (error) {
+                console.error(error);
             }
         },
-    });*/
+    });
 
     return (
         <>
@@ -138,7 +133,7 @@ const LoginForm: React.FC = () => {
             <button
                 onClick={(event) => {
                     event.preventDefault();
-                    // loginUseGoogle();
+                    loginUseGoogle();
                 }}
                 className="flex items-center justify-center gap-2 bg-white
                          text-gray-700 border border-gray-300 hover:shadow-md

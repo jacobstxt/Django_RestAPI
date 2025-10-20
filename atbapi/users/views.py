@@ -1,12 +1,16 @@
 import random
+import requests
+from rest_framework.views import APIView
 from rest_framework import viewsets, status, parsers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils.http import urlsafe_base64_decode
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 from .utils import verify_recaptcha
 from .models import CustomUser
-from .serializers import UserSerializer, RegisterSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, CustomTokenObtainPairSerializer
+from .serializers import GoogleLoginSerializer, User, UserSerializer, RegisterSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, CustomTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -106,6 +110,13 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         user.save()
         return Response({"detail": "Пароль успішно змінено"}, status=status.HTTP_200_OK)
     
+    @action(detail=False, methods=["post"], url_path="google-login", serializer_class=GoogleLoginSerializer,parser_classes=[parsers.JSONParser])
+    def google_login(self, request):
+        serializer = GoogleLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        tokens = serializer.save()
+        return Response(tokens, status=status.HTTP_200_OK)
+    
 class LoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
@@ -128,3 +139,5 @@ class LoginView(TokenObtainPairView):
             return Response({"detail": "Invalid credentials"}, status=401)
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
+    

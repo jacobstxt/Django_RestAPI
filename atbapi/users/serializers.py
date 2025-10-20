@@ -1,6 +1,7 @@
+import requests
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .utils import compress_image
+from .utils import compress_image, generate_tokens_for_user
 from .models import CustomUser
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -133,3 +134,45 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['date_joined'] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
 
         return token
+    
+class GoogleLoginSerializer(serializers.Serializer):
+    token = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        token = attrs.get("token")
+        if not token:
+            raise serializers.ValidationError({"detail": "Missing Google token"})
+
+        # Отримуємо інформацію про користувача від Google
+        google_userinfo_url = "https://www.googleapis.com/oauth2/v2/userinfo"
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(google_userinfo_url, headers=headers)
+
+        if response.status_code != 200:
+            raise serializers.ValidationError({"detail": "Invalid Google token"})
+
+        data = response.json()
+
+        email = data.get("email")
+        first_name = data.get("given_name", "")
+        last_name = data.get("family_name", "")
+
+        if not email:
+            raise serializers.ValidationError({"detail": "Email not provided by Google"})
+
+        # Створюємо або знаходимо користувача
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={
+                "username": email.split("@")[0],
+                "first_name": first_name,
+                "last_name": last_name,
+            }
+        )
+
+        # Генеруємо JWT токени для користувача
+        attrs = generate_tokens_for_user(user)
+        return attrs
+
+    def create(self, validated_data):
+        return validated_data

@@ -4,6 +4,7 @@ import uuid
 from django.core.files.base import ContentFile
 import requests 
 from django.conf import settings
+from rest_framework_simplejwt.tokens import RefreshToken
 
 def compress_image(image_field, size=(800,800), quality=85):
     # Open the image
@@ -43,3 +44,18 @@ def verify_recaptcha(token):
     print(result)
 
     return result
+
+
+def generate_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    refresh["id"] = user.id
+    refresh["username"] = user.username
+    refresh["email"] = user.email
+    refresh["image"] = user.image_small if user.image_small else None
+    refresh["date_joined"] = user.date_joined.strftime("%Y-%m-%d %H:%M:%S")
+
+    return {
+        "refresh": str(refresh),
+        "access": str(refresh.access_token),
+    }

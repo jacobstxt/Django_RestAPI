@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, LoginView
+from .views import  UserViewSet, LoginView
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 

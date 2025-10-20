@@ -7,15 +7,18 @@ import {BrowserRouter} from "react-router";
 import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 import {APP_ENV} from "./env";
 import {ThemeProvider} from "./context/ThemeContext.tsx";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 createRoot(document.getElementById('root')!).render(
     <>
         <ThemeProvider>
             <Provider store={store}>
                 <GoogleReCaptchaProvider reCaptchaKey={APP_ENV.RECAPTCHA_KEY}>
+                    <GoogleOAuthProvider clientId="1088225135754-rstar5vvfn10atk429337g44it582ck3.apps.googleusercontent.com">
                     <BrowserRouter>
                         <App/>
                     </BrowserRouter>
+                    </GoogleOAuthProvider>
                 </GoogleReCaptchaProvider>
             </Provider>
         </ThemeProvider>
