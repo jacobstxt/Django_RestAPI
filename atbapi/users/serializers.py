@@ -1,7 +1,7 @@
 import requests
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .utils import compress_image, generate_tokens_for_user
+from .utils import compress_image, download_image_as_file, generate_tokens_for_user
 from .models import CustomUser
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -129,8 +129,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['id'] = user.id
         token['username'] = user.username
         token['email'] = user.email
-        # token['phone'] = user.phone if user.phone else None
-        token['image'] = user.image_small.url if user.image_small else None
+        token['image_small'] = user.image_small.url if user.image_small else None
+        token['image_medium'] = user.image_medium.url if user.image_medium else None
+        token['image_large'] = user.image_large.url if user.image_large else None
         token['date_joined'] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
 
         return token
@@ -156,6 +157,7 @@ class GoogleLoginSerializer(serializers.Serializer):
         email = data.get("email")
         first_name = data.get("given_name", "")
         last_name = data.get("family_name", "")
+        picture = data.get("picture")
 
         if not email:
             raise serializers.ValidationError({"detail": "Email not provided by Google"})
@@ -166,9 +168,26 @@ class GoogleLoginSerializer(serializers.Serializer):
             defaults={
                 "username": email.split("@")[0],
                 "first_name": first_name,
-                "last_name": last_name,
+                "last_name": last_name
             }
         )
+
+        if created and picture:
+          try:
+            image_file = download_image_as_file(picture)
+
+            optimized, name = compress_image(image_file, size=(300, 300))
+            user.image_small.save(name, optimized, save=False)
+
+            optimized, name = compress_image(image_file, size=(800, 800))
+            user.image_medium.save(name, optimized, save=False)
+
+            optimized, name = compress_image(image_file, size=(1200, 1200))
+            user.image_large.save(name, optimized, save=False)
+
+            user.save()
+          except Exception as e:
+            print("Image save error:", e)
 
         # Генеруємо JWT токени для користувача
         attrs = generate_tokens_for_user(user)

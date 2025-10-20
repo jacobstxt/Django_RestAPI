@@ -46,13 +46,41 @@ def verify_recaptcha(token):
     return result
 
 
+def download_image_as_file(url: str, timeout: int = 10, max_size: int = 5 * 1024 * 1024) -> io.BytesIO:
+    try:
+        resp = requests.get(url, stream=True, timeout=timeout)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        raise ValueError(f"Не вдалося завантажити з URL: {e}")
+
+    content_type = resp.headers.get("Content-Type", "")
+    if not content_type.startswith("image/"):
+        raise ValueError(f"URL не містить зображення (Content-Type={content_type})")
+
+    buf = io.BytesIO()
+    total = 0
+    for chunk in resp.iter_content(chunk_size=8192):
+        if not chunk:
+            continue
+        total += len(chunk)
+        if total > max_size:
+            raise ValueError(f"Розмір зображення перевищує ліміт {max_size} байт")
+        buf.write(chunk)
+
+    buf.seek(0)
+    return buf
+
+
+
 def generate_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
     refresh["id"] = user.id
     refresh["username"] = user.username
     refresh["email"] = user.email
-    refresh["image"] = user.image_small if user.image_small else None
+    refresh["image_small"] = user.image_small.url if user.image_small else None
+    refresh["image_medium"] = user.image_medium.url if user.image_medium else None
+    refresh["image_large"] = user.image_large.url if user.image_large else None
     refresh["date_joined"] = user.date_joined.strftime("%Y-%m-%d %H:%M:%S")
 
     return {
