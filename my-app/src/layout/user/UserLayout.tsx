@@ -8,7 +8,7 @@ const UserLayout: React.FC = () => {
         <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <Navbar/>
 
-            <main className="flex flex-1 p-6 gap-6 bg-gray-50 dark:bg-gray-900">
+            <main className="flex flex-1 gap-6 bg-gray-50 dark:bg-gray-900">
                 <TopicsSideBar />
                 <div className="flex-1">
                     <Outlet />

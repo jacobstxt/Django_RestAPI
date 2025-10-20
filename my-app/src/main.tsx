@@ -14,11 +14,11 @@ createRoot(document.getElementById('root')!).render(
         <ThemeProvider>
             <Provider store={store}>
                 <GoogleReCaptchaProvider reCaptchaKey={APP_ENV.RECAPTCHA_KEY}>
-                    <GoogleOAuthProvider clientId="1088225135754-rstar5vvfn10atk429337g44it582ck3.apps.googleusercontent.com">
                     <BrowserRouter>
+                      <GoogleOAuthProvider clientId="1088225135754-rstar5vvfn10atk429337g44it582ck3.apps.googleusercontent.com">
                         <App/>
+                      </GoogleOAuthProvider>
                     </BrowserRouter>
-                    </GoogleOAuthProvider>
                 </GoogleReCaptchaProvider>
             </Provider>
         </ThemeProvider>

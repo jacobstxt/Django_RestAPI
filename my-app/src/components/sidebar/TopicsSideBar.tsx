@@ -42,7 +42,7 @@ const TopicsSidebar: React.FC = () => {
     return (
         <aside
             className={`h-screen left-0 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col border-r border-gray-200 dark:border-gray-800 overflow-y-auto px-3 py-4 transition-all duration-300 ${
-                collapsed ? "w-16" : "w-64"}`}
+                collapsed ? "w-19" : "w-64"}`}
         >
             <div className="flex justify-end">
                 <button
@@ -99,7 +99,8 @@ const TopicsSidebar: React.FC = () => {
                 </span>
             )}
 
-            <div className="max-h-[400px] custom-scroll">
+            {!collapsed && (
+            <div className="h-screen custom-scroll">
                 <div id="accordion-open">
                     {topics.map((topic) => (
                         <TopicSideBarRow key={topic.id} topic={topic} />
@@ -112,6 +113,7 @@ const TopicsSidebar: React.FC = () => {
                     </button>
                 </div>
             </div>
+             )}
 
         </aside>
     );

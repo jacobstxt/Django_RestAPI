@@ -13,11 +13,11 @@ interface Props {
 }
 
 const ImageUploader: React.FC<Props> = ({
-                                                         fileList,
-                                                         setFileList,
-                                                         imageError,
-                                                         setImageError
-                                                     }) => {
+                                            fileList,
+                                            setFileList,
+                                            imageError,
+                                            setImageError
+                                        }) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
 
@@ -70,7 +70,7 @@ const ImageUploader: React.FC<Props> = ({
             )}
 
             {imageError && (
-                <div className="text-red-500 text-sm mt-1">
+                <div className="text-red-500 dark:text-red-400 text-sm mt-1">
                     Оберіть зображення категорії
                 </div>
             )}

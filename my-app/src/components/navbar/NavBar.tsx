@@ -2,10 +2,10 @@ import React from "react";
 import {Link, useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faReddit} from "@fortawesome/free-brands-svg-icons";
-import {APP_ENV} from "../../env";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {clearTokens} from "../../store/authSlice.ts";
 import {ThemeToggleButton} from "../buttons/ThemeToggleButton.tsx";
+import {APP_ENV} from "../../env";
 
 
 
@@ -18,6 +18,9 @@ const Navbar: React.FC = () => {
         dispatch(clearTokens());
         navigate("/login");
     };
+
+    console.log("Redux user:", user);
+
 
     return (
         <header className="w-full py-2 px-6 bg-gray-50 dark:bg-gray-900 shadow-md flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
@@ -33,9 +36,9 @@ const Navbar: React.FC = () => {
                 {user ? (
                     <>
                         <div className="flex items-center gap-3">
-                            {user.image && (
+                            {user.image_small && (
                                 <img
-                                    src={APP_ENV.IMAGE_BASE_URL + user.image}
+                                    src={APP_ENV.IMAGE_BASE_URL + user.image_small}
                                     alt={user.username}
                                     className="w-8 h-8 rounded-full border border-gray-300 dark:border-white"
                                 />
@@ -59,7 +62,7 @@ const Navbar: React.FC = () => {
                             to="/login"
                             className="bg-purple-500 dark:bg-purple-600 px-4 py-2 rounded-full hover:bg-purple-600 dark:hover:bg-purple-700 transition text-white"
                         >
-                            Log In
+                            Вхід
                         </Link>
                         <Link
                             to="/register"

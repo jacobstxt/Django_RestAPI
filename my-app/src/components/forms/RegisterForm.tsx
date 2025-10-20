@@ -1,12 +1,13 @@
 import React, {useState} from "react";
-import {Form, Input, Button, Row, Col, type UploadFile, type FormProps} from "antd";
+import {Form, Button, Row, Col, type UploadFile, type FormProps} from "antd";
 import {useRegisterMutation} from "../../services/userService.ts";
 import type {IUserRegister} from "../../types/users/IUserRegister.ts";
-import ImageUploader from "../uploaders/ImageUploader.tsx";
+import ImagesUploader from "../uploaders/ImagesUploader.tsx";
 import {useDispatch} from "react-redux";
 import {setTokens} from "../../store/authSlice.ts";
 import {useNavigate} from "react-router";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import InputField from "../inputs/InputField.tsx";
 
 const RegisterForm: React.FC = () => {
     const [form] = Form.useForm();
@@ -16,6 +17,16 @@ const RegisterForm: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { executeRecaptcha } = useGoogleReCaptcha();
+    const [errors, setErrors] = useState<string[]>([]);
+
+    const validationChange = (isValid: boolean, fieldKey: string) => {
+        if (isValid && errors.includes(fieldKey)) {
+            setErrors(errors.filter(x => x !== fieldKey))
+        } else if (!isValid && !errors.includes(fieldKey)) {
+            setErrors(state => [...state, fieldKey])
+        }
+    };
+
 
     const onFinish: FormProps<IUserRegister>["onFinish"] = async (values) => {
         if (fileList.length === 0 || !fileList[0]?.originFileObj) {
@@ -52,63 +63,106 @@ const RegisterForm: React.FC = () => {
             onFinish={onFinish}
             style={{ width: "100%" }}
         >
-            <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                    { required: true, message: "Please enter your username" }
-                ]}
-            >
-                <Input placeholder="johnsmith" />
+            <Form.Item name="username">
+                <InputField
+                    label={"username"}
+                    name={"username"}
+                    placeholder="Хустон"
+                    rules={[
+                {
+                    rule: 'required',
+                    message: "Юзер нейм є обов'язковий"
+                },
+                    ]}
+                    onValidationChange={validationChange}
+                    />
             </Form.Item>
 
             <Row gutter={16}>
                 <Col xs={24} md={12}>
-                    <Form.Item
-                        label="First name"
-                        name="first_name"
-                        rules={[{ required: true, message: "Please enter your first name" }]}
-                    >
-                        <Input placeholder="John" />
+                    <Form.Item name="first_name">
+                        <InputField
+                            label={"first name"}
+                            name={"first_name"}
+                            placeholder="John"
+                            rules={[
+                                {
+                                    rule: 'required',
+                                    message: "Ім'я є обов'язкове"
+                                },
+                            ]}
+                            onValidationChange={validationChange}
+                        />
                     </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
-                    <Form.Item
-                        label="Last name"
-                        name="last_name"
-                        rules={[{ required: true, message: "Please enter your last name" }]}
-                    >
-                        <Input placeholder="Smith" />
+                    <Form.Item name="last_name">
+                        <InputField
+                            label={"last name"}
+                            name={"last_name"}
+                            placeholder="John"
+                            rules={[
+                                {
+                                    rule: 'required',
+                                    message: "Прізвище є обов'язкове"
+                                },
+                            ]}
+                            onValidationChange={validationChange}
+                        />
                     </Form.Item>
                 </Col>
             </Row>
 
-            <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                    { required: true, message: "Please enter your email" },
-                    { type: "email", message: "Invalid email format" },
-                ]}
-            >
-                <Input placeholder="johnsmith@example.com" />
+            <Form.Item name="email">
+                <InputField
+                    label={"email"}
+                    name={"email"}
+                    placeholder="Хустон"
+                    rules={[
+                {
+                    rule: 'required',
+                    message: "Пошта є обов'язкова"
+                },
+                {
+                    rule: 'regexp',
+                    value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+                    message: "Пошта є некоректна"
+                }
+
+                    ]}
+                    onValidationChange={validationChange}
+                    />
+            </Form.Item>
+
+            <Form.Item name="password">
+                <InputField
+                    label={"password"}
+                    name={"password"}
+                    type={"password"}
+                    placeholder="Please enter your password"
+                    rules={[
+                        {
+                            rule: 'required',
+                            message: "Пароль є обов'язковим"
+                        },
+                        {
+                            rule: 'regexp',
+                            value: '^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$',
+                            message: "Пароль некоректний"
+                        }
+
+                    ]}
+                    onValidationChange={validationChange}
+                />
             </Form.Item>
 
             <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: "Please enter your password" }]}
-            >
-                <Input.Password placeholder="********" />
-            </Form.Item>
-
-            <Form.Item
-                label="Зображення"
+                label="image"
                 required
                 validateStatus={imageError ? "error" : ""}
                 className="w-full text-center"
             >
-                <ImageUploader
+                <ImagesUploader
                     fileList={fileList}
                     setFileList={setFileList}
                     imageError={imageError}
@@ -124,7 +178,7 @@ const RegisterForm: React.FC = () => {
                     block
                     style={{ height: "40px", fontWeight: 600 }}
                 >
-                    REGISTER NOW
+                    REGISTER
                 </Button>
             </Form.Item>
         </Form>

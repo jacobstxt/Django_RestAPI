@@ -6,9 +6,14 @@ export interface User {
     id: number;
     username: string;
     email: string;
-    image?: string | null;
+    image_small?: string | null;
+    image_medium?: string | null;
+    image_large?: string | null;
     date_joined?: string;
 }
+
+
+
 
 interface AuthState {
     access: string | null;
@@ -23,7 +28,9 @@ const getUserFromToken = (token: string): User | null => {
             id: decoded.id,
             username: decoded.username,
             email: decoded.email,
-            image: decoded.image ?? null,
+            image_small: decoded.image_small ?? null,
+            image_medium: decoded.image_medium ?? null,
+            image_large: decoded.image_large ?? null,
             date_joined: decoded.date_joined ?? null,
         };
     } catch (error) {
