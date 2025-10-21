@@ -1,4 +1,4 @@
-import {Form, Button, type FormProps} from "antd";
+import {Form, Button} from "antd";
 import {useLoginMutation,useLoginByGoogleMutation} from "../../services/userService.ts";
 import {useDispatch} from "react-redux";
 import {setTokens} from "../../store/authSlice.ts";
@@ -11,12 +11,17 @@ import type {IGoogleLoginRequest} from "../../types/users/IGoogleLoginRequest.ts
 import InputField from "../inputs/InputField.tsx";
 
 const LoginForm: React.FC = () => {
-    const [form] = Form.useForm();
-    const [login, { isLoading }] = useLoginMutation();
-    const [loginByGoogle] = useLoginByGoogleMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { executeRecaptcha } = useGoogleReCaptcha();
+
+    const [login, { isLoading }] = useLoginMutation();
+    const [loginByGoogle] = useLoginByGoogleMutation();
+
+    const [formValues, setFormValues] = useState<ILoginRequest>({
+        username: "",
+        password: "",
+    });
 
     const [errors, setErrors] = useState<string[]>([]);
 
@@ -44,7 +49,7 @@ const LoginForm: React.FC = () => {
         }
     };*/
 
-    const onFinish: FormProps<ILoginRequest>["onFinish"] = async (values) => {
+    /*  const onFinish: FormProps<ILoginRequest>["onFinish"] = async (values) => {
         try {
             if (!executeRecaptcha) return;
 
@@ -77,7 +82,7 @@ const LoginForm: React.FC = () => {
                 "Помилка входу, перевір дані";
             console.error("❌ Error message:", errorMessage);
         }
-    };
+    };*/
 
 
 
@@ -94,57 +99,51 @@ const LoginForm: React.FC = () => {
         },
     });
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!executeRecaptcha) return;
+
+        const token = await executeRecaptcha("login");
+        const payload: ILoginRequest = { ...formValues, recaptcha_token: token };
+
+        console.log(payload);
+
+        try {
+            const result = await login(payload).unwrap();
+            dispatch(setTokens(result));
+            navigate("/");
+        } catch (err: any) {
+            console.error(err?.data?.errors);
+        }
+    };
+
     return (
         <>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-                style={{width: "100%"}}
-            >
+            <form onSubmit={handleSubmit} className="space y-4">
+                <InputField
+                    label="Username"
+                    name="username"
+                    placeholder="pedro"
+                    value={formValues.username}
+                    onChange={handleChange}
+                    onValidationChange={validationChange}
+                    rules={[{ rule: "required", message: "Username is required" }]}
+                />
 
-                <Form.Item name="username" rules={[{required: true}]}>
-                    <InputField
-                        label={"username"}
-                        name={"username"}
-                        placeholder="Хустон"
-                        rules={[
-                            {
-                                rule: 'required',
-                                message: "Пошта є обов'язкова"
-                            },
-                            {
-                                rule: 'regexp',
-                                value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-                                message: "Пошта є некоректна"
-                            }
-
-                        ]}
-                        onValidationChange={validationChange}
-                    />
-                </Form.Item>
-
-                <Form.Item name="password" rules={[{required: true}]}>
-                    <InputField
-                        label={"password"}
-                        name={"password"}
-                        type={"password"}
-                        placeholder="Please enter your password"
-                        rules={[
-                            {
-                                rule: 'required',
-                                message: "Пароль є обов'язковим"
-                            },
-                            {
-                                rule: 'regexp',
-                                value: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-                                message: "Пароль ковбаса"
-                            }
-
-                        ]}
-                        onValidationChange={validationChange}
-                    />
-                </Form.Item>
+                <InputField
+                    label="Password"
+                    type="password"
+                    name="password"
+                    placeholder="********"
+                    value={formValues.password}
+                    onChange={handleChange}
+                    onValidationChange={validationChange}
+                    rules={[{ rule: "required", message: "Password is required" }]}
+                />
 
                 <Link to="/forgot-password">Forgot password?</Link>
 
@@ -176,7 +175,7 @@ const LoginForm: React.FC = () => {
                         Login
                     </Button>
                 </Form.Item>
-            </Form>
+            </form>
         </>
     );
 };

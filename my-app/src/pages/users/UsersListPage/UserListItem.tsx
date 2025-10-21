@@ -18,7 +18,7 @@ const UserListItem: React.FC<Props> = ({user}) => {
 
                 </td>
                 <td className="px-6 py-4">
-                    {user.last_name} {user.first_name}
+                     {user.first_name} {user.last_name}
                 </td>
                 <td className="px-6 py-4">
                     {user.email}

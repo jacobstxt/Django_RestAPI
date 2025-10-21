@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Upload, Image } from "antd";
 import ImgCrop from "antd-img-crop";
 import type { UploadFile, UploadProps, GetProp } from "antd";
+import {useTheme} from "../../context/ThemeContext.tsx";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -18,6 +19,9 @@ const ImageUploader: React.FC<Props> = ({
                                             imageError,
                                             setImageError
                                         }) => {
+
+
+    const { theme } = useTheme();
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
 
@@ -41,7 +45,7 @@ const ImageUploader: React.FC<Props> = ({
     return (
         <div>
             <ImgCrop rotationSlider>
-                <Upload
+                 <Upload
                     listType="picture-card"
                     fileList={fileList}
                     onChange={({ fileList }) => {
@@ -52,9 +56,11 @@ const ImageUploader: React.FC<Props> = ({
                     customRequest={({ onSuccess }) => {
                         setTimeout(() => onSuccess?.("ok"), 0);
                     }}
-                >
-                    {fileList.length < 1 && "+ Upload"}
-                </Upload>
+                 >
+                     <div className={theme === "dark" ? "text-white" : "text-black"}>
+                         {fileList.length < 1 && "+ Upload"}
+                     </div>
+                 </Upload>
             </ImgCrop>
 
             {previewImage && (

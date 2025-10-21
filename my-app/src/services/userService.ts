@@ -86,4 +86,5 @@ export const {
     useResetPasswordRequestMutation,
     useResetPasswordMutation,
     useLoginByGoogleMutation,
+    useGetMeQuery,
 } = userService;

@@ -14,9 +14,9 @@ const UsersListPage = () => {
 
     return (
         <>
-            <h1 className={"text-3xl font-bold text-center"}>Користувачі</h1>
+            <h1 className={"mt-2 text-3xl font-bold text-center"}>Користувачі</h1>
             <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table className="mt-5 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
