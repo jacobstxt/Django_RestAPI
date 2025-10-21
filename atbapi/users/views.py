@@ -49,6 +49,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
     parser_classes = [parsers.MultiPartParser, parsers.FormParser]
 
+
     @action(detail=False, methods=["post"])
     def generate(self, request):
         users = generate_random_users(5)
@@ -126,6 +127,7 @@ class LoginView(TokenObtainPairView):
         recaptcha_token = request.data.get("recaptcha_token")
         if not recaptcha_token:
             return Response({"detail": "Missing reCAPTCHA token"}, status=400)
+
 
         result = verify_recaptcha(recaptcha_token)
         if not result.get("success") or result.get("score", 0) < 0.5:
