@@ -103,9 +103,21 @@ run()
 ```
 
 
+## Create posts
+```
+cd atbapi
+py manage.py startapp posts
+py manage.py makemigrations posts
+py manage.py migrate
+```
+
+
 ## Запуск проекту
 ```
 .venv\Scripts\activate.bat
 cd atbapi
 py manage.py runserver 4099
 ```
+
+
+
