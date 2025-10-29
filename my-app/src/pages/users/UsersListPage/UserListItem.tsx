@@ -1,4 +1,5 @@
 import type {IUserItem} from "../../../types/users/IUserItem";
+import React from "react";
 
 interface Props {
     user: IUserItem;

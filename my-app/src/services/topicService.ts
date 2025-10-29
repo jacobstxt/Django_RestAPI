@@ -13,7 +13,7 @@ export const topicService = createApi({
         getTopics: builder.query<IParentTopic[], void>({
             query: () => {
                 return {
-                    url: '',
+                    url: '/all',
                     method: 'GET'
                 };
             },

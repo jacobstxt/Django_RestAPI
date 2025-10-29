@@ -6,19 +6,21 @@ import {
     faFire,
     faComments,
     faCompass,
-    // faChevronDown,
     faAngleLeft,
     faAngleRight,
+    faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
-import {useGetRootTopicsQuery} from "../../services/topicService.ts";
+import {useGetTopicsQuery} from "../../services/topicService.ts";
 import TopicSideBarRow from "./TopicSideBarRow.tsx";
 
 
 // const { Panel } = Collapse;
 
 const TopicsSidebar: React.FC = () => {
-    const { data: topics, isLoading, isError } = useGetRootTopicsQuery();
+    // const { data: topics, isLoading, isError } = useGetRootTopicsQuery();
+    const { data: topics, isLoading, isError } = useGetTopicsQuery();
+
     const [collapsed, setCollapsed] = useState(false);
 
     if (isLoading) {
@@ -88,6 +90,15 @@ const TopicsSidebar: React.FC = () => {
                 >
                     <FontAwesomeIcon icon={faCompass} className="w-4 h-4 text-gray-600 dark:text-gray-300" />
                     {!collapsed && <span className="text-sm font-medium">Explore</span>}
+                </Link>
+
+
+                <Link
+                    to="/posts/add"
+                    className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                >
+                    <FontAwesomeIcon icon={faPlus} className="w-4 h-4 text-gray-600 dark:text-gray-300"/>
+                    {!collapsed && <span className="text-sm font-medium">Add Post</span>}
                 </Link>
             </nav>
 

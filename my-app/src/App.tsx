@@ -1,5 +1,4 @@
 import './App.css'
-import UsersListPage from "./pages/users/UsersListPage";
 import {Route, Routes} from "react-router";
 import UserRegisterPage from "./pages/users/UserRegisterPage";
 import ForgotPasswordPage from "./pages/users/UserResetPasswordPage/ForgotPasswordPage.tsx";
@@ -8,6 +7,7 @@ import SuccessPage from "./pages/users/UserResetPasswordPage/SuccessPage.tsx";
 import UserLoginPage from "./pages/users/UserLoginPage";
 import UserLayout from "./layout/user/UserLayout.tsx";
 import NotFoundPage from "./pages/additional/NotFoundPage.tsx";
+import PostListPage from "./pages/post";
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         <>
             <Routes>
                 <Route path="/" element={<UserLayout/>} >
-                    <Route index element={<UsersListPage />}/>
+                    <Route index element={<PostListPage />}/>
                     <Route path={"register"} element={<UserRegisterPage />}/>
                     <Route path={"login"} element={<UserLoginPage />}/>
                     <Route path={"forgot-password"} element={<ForgotPasswordPage />} />
