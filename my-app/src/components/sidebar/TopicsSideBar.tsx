@@ -94,7 +94,7 @@ const TopicsSidebar: React.FC = () => {
 
 
                 <Link
-                    to="/posts/add"
+                    to="/post/add"
                     className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                 >
                     <FontAwesomeIcon icon={faPlus} className="w-4 h-4 text-gray-600 dark:text-gray-300"/>

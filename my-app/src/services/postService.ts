@@ -16,9 +16,20 @@ export const postService = createApi({
             },
             providesTags: ["Posts"]
         }),
+        createPost: builder.mutation<IPostItem, FormData>({
+            query: (formData) => {
+                return {
+                    url: '/',
+                    method: 'POST',
+                    body: formData
+                };
+            },
+            invalidatesTags: ["Posts"]
+        }),
+
     }),
 });
 
 export const {
-    useGetPostsQuery
+    useGetPostsQuery,useCreatePostMutation,
 } = postService;

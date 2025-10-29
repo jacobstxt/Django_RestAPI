@@ -1,5 +1,5 @@
 import PostListItem from "./PostListItem.tsx";
-import {useGetPostsQuery} from "../../services/postService.ts";
+import {useGetPostsQuery} from "../../../services/postService.ts";
 
 
 const PostListPage = () => {

@@ -1,6 +1,6 @@
 import React from "react";
-import type {IPostItem} from "../../types/posts/IPostItem.ts";
-import {APP_ENV} from "../../env";
+import type {IPostItem} from "../../../types/posts/IPostItem.ts";
+import {APP_ENV} from "../../../env";
 
 interface Props {
     post: IPostItem;
@@ -23,11 +23,11 @@ const PostListItem: React.FC<Props> = ({post}) => {
                 />
             )}
 
-            {post.video_url && (
+            {post.video && (
                 <div className="mt-3">
                     <iframe
                         className="w-full h-64 rounded-lg"
-                        src={post.video_url}
+                        src={`${APP_ENV.API_BASE_URL}/videos/${post.video}`}
                         title={post.title}
                         allowFullScreen
                     ></iframe>

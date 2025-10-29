@@ -93,7 +93,7 @@ const RegisterForm: React.FC = () => {
 
         try {
             const result = await register(payload).unwrap();
-            //dispatch(setTokens(result));
+            dispatch(setTokens(result));
             navigate("/login");
         } catch (err: any) {
             console.error(err?.data?.errors);

@@ -3,6 +3,7 @@ export interface IPostItem {
     title: string;
     body: string;
     image?: string | null;
+    video?: string | null;
     video_url?: string | null;
     topic_name: string;
     created_at: string;
