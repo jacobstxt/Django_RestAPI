@@ -1,4 +1,4 @@
-# Проєкт Django API
+# Проєкт Django API (Reddit)
 ```
 py -m venv .venv
 py --version
