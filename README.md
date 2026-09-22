@@ -14,8 +14,8 @@ python -m django --version
 
 ## Створюю проект
 ```
-django-admin startproject atbapi
-cd atbapi
+django-admin startproject backend
+cd backend
 py manage.py runserver 4099
 ```
 
@@ -90,7 +90,7 @@ npm install tailwindcss @tailwindcss/vite
 ## Start Working Reddit
 ## Create topic
 ```
-cd atbapi
+cd backend
 py manage.py startapp topics
 py manage.py makemigrations topics
 py manage.py migrate
@@ -105,7 +105,7 @@ run()
 
 ## Create posts
 ```
-cd atbapi
+cd backend
 py manage.py startapp posts
 py manage.py makemigrations posts
 py manage.py migrate
@@ -115,7 +115,7 @@ py manage.py migrate
 ## Запуск проекту
 ```
 .venv\Scripts\activate.bat
-cd atbapi
+cd backend
 py manage.py runserver 4099
 ```
 
